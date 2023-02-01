@@ -419,8 +419,9 @@ func (c *client) send(ctx context.Context, tenantID string, buf []byte) (int, er
 	// If the tenant ID is not empty promtail is running in multi-tenant mode, so
 	// we should send it to Loki
 	if tenantID != "" {
-		req.Header.Set("X-Scope-OrgID", tenantID)
+		req.Header.Set("x-id-api-key", tenantID)
 	}
+	level.Error(c.logger).Log("msg", "XXX send tenantID", "tenantID", tenantID)
 
 	resp, err := c.client.Do(req)
 	if err != nil {
